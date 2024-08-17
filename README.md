@@ -12,4 +12,4 @@ It based on backward engineering, cause i do not have any documentation.
 
 If someone knows more details of the protocol, such as registers addresses, functions, possible data values and so on, please contact me or try to add new functionality.
 
-Very early stage of development. Use for your own risk.
+Very early stage of development. Experimental. Use for your own risk.
