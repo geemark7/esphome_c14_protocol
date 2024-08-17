@@ -6,7 +6,7 @@ C14Nano1 component dedicated to communicate strictly with Compit Nano1 controlle
 
 Currently C14nano1 component supports reading values from temperature sensors. It also support reading and setting operation mode of connected ventilation box managed by the controller.
 
-I've used a @syssi/esphome-jk-bms as a scuffolding .
+I've used a [@syssi](https://github.com/syssi)/[esphome-jk-bms](https://github.com/syssi/esphome-jk-bms) as a scuffolding .
 
 It based on backward engineering, cause i do not have any documentation.
 
