@@ -1,0 +1,93 @@
+substitutions:
+  name: "esp-nano1"
+  friendly_name: "ESP Ventilation NANO1"
+  device_description: "Control and monitor ventilation Compit NANO1 via RS485."
+  external_components_source: github://geemark7/esphome_c14_protocol@main
+  tx_pin: GPIO01
+  rx_pin: GPIO03
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  comment: ${device_description}
+  min_version: 2024.6.0
+  name_add_mac_suffix: false
+#  on_boot:
+#    - lambda: |-
+#        id(my_ota).set_auth_password();
+
+esp8266:
+  board: esp01_1m
+
+external_components:
+  - source: ${external_components_source}
+    refresh: 0s
+        
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+           
+logger:
+  baud_rate: 0
+  level: DEBUG
+
+#api:
+
+ota:
+  - platform: esphome
+
+#========================================================
+uart:
+  - id: uart_bus
+    baud_rate: 9600 
+    parity: NONE
+    stop_bits: 1
+    tx_pin: ${tx_pin}
+    rx_pin: ${rx_pin}
+    debug:
+      direction: TX #BOTH RX 
+      dummy_receiver: false
+
+c14_protocol:
+  - id: c14_protocol_0
+    uart_id: uart_bus
+    rx_timeout: 50ms
+
+c14_nano1:
+  - id: c14_nano1_0
+    c14_protocol_id: c14_protocol_0
+    update_interval: 5s
+    address: 0x29
+
+binary_sensor:
+  - platform: c14_nano1
+    online_status:
+      name: "online status"
+
+sensor:
+  - platform: c14_nano1            
+    temperature_air_setting:    
+      name: "temperature air setting"  
+    temperature_air_exhaust:    
+      name: "temperature air exhaust" 
+    temperature_air_vent:       
+      name: "temperature air vent"    
+    temperature_air_intake:     
+      name: "temperature air intake"  
+    temperature_air_supply:     
+      name: "temperature air supply"  
+    temperature_air_vent_1:     
+      name: "temperature air vent 1"  
+    temperature_air_intake_1:   
+      name: "temperature air intake 1"
+
+text_sensor:
+  - platform: c14_nano1
+    errors:
+      name: "errors"
+
+select:
+  # Operating  Mode                     
+  - platform: c14_nano1
+    operating_mode:
+      name: "operating mode"
